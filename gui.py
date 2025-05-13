@@ -47,12 +47,17 @@ def con_thread():
     status.set("Status: Connected")
 
 def read_thread():
-    speed_a2.set(mc.read_sign_word(s,headdevice = 'SM5582' , length = 2, signed_type=True))
+    SD5582.set(mc.read_sign_word(s,headdevice = 'SD5582' , length = 2, signed_type=True))
+    SD5584.set(mc.read_sign_word(s,headdevice = 'SD5584' , length = 2, signed_type=True))
+    SD5544.set(mc.read_sign_word(s,headdevice = 'SD5544' , length = 2, signed_type=True))
+    SD5542.set(mc.read_sign_word(s,headdevice = 'SD5542' , length = 2, signed_type=True))
 
 def connect():
     global t
     t = Thread(target=con_thread)
     t.start()
+    t2 = Thread(target=read_thread)
+    t2.start()
     
 
 def one_axis_arm_throw():
@@ -198,5 +203,6 @@ GUI.mainloop()
 try:
     s.close()
     t.join()
+    t2.join()
 except:
     pass
